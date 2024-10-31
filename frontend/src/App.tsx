@@ -11,13 +11,15 @@ import './styles/hover.css'
 
 import HomePage from './pages/HomePage/HomePage'
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import ActivitiesPage from './pages/ActivitiesPage/ActivitiesPage'
 import ActivityPage from './pages/ActivityPage/ActivityPage'
+import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs'
 
 
 
 function App() {
+ 
   return (
     <div className="wrapper">
       <Header />
@@ -25,7 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage/>} />
           <Route path="/activities" element={<ActivitiesPage/>} />
-          <Route path="/activity/:id" element={<ActivityPage/>} />
+          <Route path="/activity/:id" element={<ActivityPage />} />
         </Routes>
 
     </div>
