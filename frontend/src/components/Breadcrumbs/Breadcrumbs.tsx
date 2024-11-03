@@ -6,10 +6,7 @@ const Breadcrumbs: React.FC = () => {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x && x !== 'null'); // Убираем пустые элементы и 'null'
   
-  // Извлекаем id активности из пути, если он есть
-  const id = pathnames[pathnames.length - 1] === 'activity' ? pathnames[pathnames.length - 2] : pathnames[pathnames.length - 1];
-  console.log(id)
-
+  
   const breadcrumbsMapping: Record<string, string> = {
     '': 'Главная',
     'activities': 'Деятельности',
@@ -41,7 +38,7 @@ const Breadcrumbs: React.FC = () => {
               <>
                 <Link to="/activities">{breadcrumbsMapping['activities']}</Link>
                 {' > '}
-                <Link to={`/activity/${id}`}>
+                <Link to={`${location.pathname}`}>
                 {breadcrumbsMapping[pathname]}</Link>
               </>
             ) : isLast ? (

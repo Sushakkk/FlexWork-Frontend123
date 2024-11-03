@@ -1,36 +1,33 @@
-import React, { useEffect, FormEvent, useState } from 'react';
+import React, { useEffect, FormEvent, useState } from 'react'; 
 import './ActivitiesPage.css';
-import { ActivitiesMocks } from '../../modules/mocks'; // Импортируйте моковые данные
+import { ActivitiesMocks } from '../../modules/mocks';
 import { Link } from 'react-router-dom'; 
 import { T_Activity } from '../../modules/types';
 import ActivityCard from '../../components/ActivityCard/ActivityCard';
 
 const ActivitiesPage = () => {
-    const [activities, setActivities] = useState<T_Activity[]>([]); // Инициализация состояния как пустой массив
+    const [activities, setActivities] = useState<T_Activity[]>([]);
     const [isMock, setIsMock] = useState(false);
     const [title, setTitle] = useState('');
+    const [count, setCount] = useState(0);
 
     const fetchData = async () => {
         try {
-            // Запрос к /api/activities/
             const response = await fetch(`/api/activities/?title=${title.toLowerCase()}`, { signal: AbortSignal.timeout(1000) });
             
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            
-            const data = await response.json();
-    
-            setActivities(data.activities); // Устанавливаем полученные активности
-            setIsMock(false); // Успешный запрос, не используем моки
-    
+            const result = await response.json();
+            setActivities(result.activities);
+            setCount( result.count || 0 );
+            setIsMock(false);
         } catch (error) {
-            createMocks(); // В случае ошибки, создаем моки
+            createMocks();
         }
     };
     
     
-
     const createMocks = () => {
         setIsMock(true);
         setActivities(ActivitiesMocks.filter(activity => activity.title.toLowerCase().includes(title.toLowerCase())));
@@ -38,11 +35,11 @@ const ActivitiesPage = () => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        await fetchData(); // Вызываем fetchData при отправке формы
+        await fetchData();
     }
 
     useEffect(() => {
-        fetchData(); // Получаем данные при первом рендере
+        fetchData();
     }, []);
 
     return (
@@ -56,7 +53,7 @@ const ActivitiesPage = () => {
                                     type="text"
                                     name="activity"
                                     value={title}
-                                    onChange={(e) => setTitle(e.target.value)} // Обновляем состояние при изменении
+                                    onChange={(e) => setTitle(e.target.value)}
                                     placeholder="Поиск"
                                     className="search-input"
                                 />
@@ -71,12 +68,15 @@ const ActivitiesPage = () => {
                                 src="http://127.0.0.1:9000/flexwork/basket.svg"
                                 alt="basket"
                             />
+                            {count > 0 && (
+                                <div className="basket_amount">{count}</div>
+                            )} {/* Условный рендеринг здесь */}
                         </div>
                     </div>
 
                     <div className="services__cards">
                         {activities.map((activity) => (
-                            <ActivityCard  key={activity.id} activity={activity}/>
+                            <ActivityCard key={activity.id} activity={activity}/>
                         ))}
                     </div>
                 </div>
