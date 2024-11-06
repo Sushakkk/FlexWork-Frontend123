@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import './ActivityPage.css';
 import { ActivitiesMocks } from '../../modules/mocks';
-import defaultImage from '../../assets/default-image.jpg'; 
 import { T_Activity } from '../../modules/types';
 import { useParams } from 'react-router-dom';
 

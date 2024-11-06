@@ -8,10 +8,3 @@ export interface T_Activity {
   }
   
 
-//   export default interface ActivityProps {
-//     id: number;
-//     title: string;
-//     description: string;
-//     img_url?: string;
-//     category: string;
-// }

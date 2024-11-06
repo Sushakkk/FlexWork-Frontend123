@@ -1,7 +1,7 @@
-import React, { useEffect, FormEvent, useState } from 'react'; 
+import { useEffect, FormEvent, useState } from 'react'; 
 import './ActivitiesPage.css';
 import { ActivitiesMocks } from '../../modules/mocks';
-import { Link } from 'react-router-dom'; 
+
 import { T_Activity } from '../../modules/types';
 import ActivityCard from '../../components/ActivityCard/ActivityCard';
 
@@ -10,6 +10,7 @@ const ActivitiesPage = () => {
     const [isMock, setIsMock] = useState(false);
     const [title, setTitle] = useState('');
     const [count, setCount] = useState(0);
+
 
     const fetchData = async () => {
         try {
@@ -23,7 +24,11 @@ const ActivitiesPage = () => {
             setCount( result.count || 0 );
             setIsMock(false);
         } catch (error) {
-            createMocks();
+            if (!isMock){
+                createMocks();
+
+            }
+            
         }
     };
     
